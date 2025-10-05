@@ -5,6 +5,8 @@ import { Providers } from '@/components/providers';
 import { BottomNav } from '@/components/bottom-nav';
 import { Toaster } from '@/components/ui/sonner';
 import { AppInitializer } from '@/components/app-initializer';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { ThemeColor } from '@/components/theme-color';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -49,7 +51,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: 'cover',
-  themeColor: '#0f172a',
+  themeColor: '#ffffff',
 };
 
 export default function RootLayout({
@@ -61,6 +63,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className="h-full">
       <body className={`${inter.className} h-full overflow-auto`}>
         <Providers>
+          <ThemeColor />
+          <ThemeToggle />
           <AppInitializer>
             <div className="relative min-h-full pb-16">
               <main className="relative">
