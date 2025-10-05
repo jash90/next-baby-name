@@ -4,13 +4,43 @@ import { Inter } from 'next/font/google';
 import { Providers } from '@/components/providers';
 import { BottomNav } from '@/components/bottom-nav';
 import { Toaster } from '@/components/ui/sonner';
+import { AppInitializer } from '@/components/app-initializer';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Baby Names - Discover Perfect Names',
-  description: 'Discover beautiful baby names with meanings, origins, and trends',
+  title: 'Brajanusz - Odkryj Idealne Imię',
+  description: 'Odkryj piękne imiona dla dzieci wraz z ich znaczeniami, pochodzeniem i trendami',
   manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Brajanusz',
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: 'website',
+    siteName: 'Brajanusz',
+    title: 'Brajanusz - Odkryj Idealne Imię',
+    description: 'Odkryj piękne imiona dla dzieci wraz z ich znaczeniami, pochodzeniem i trendami',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Brajanusz - Odkryj Idealne Imię',
+    description: 'Odkryj piękne imiona dla dzieci wraz z ich znaczeniami, pochodzeniem i trendami',
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.png', type: 'image/png' },
+      { url: '/icon-192x192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512x512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
 };
 
 export const viewport: Viewport = {
@@ -19,7 +49,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: 'cover',
-  themeColor: '#ffffff',
+  themeColor: '#0f172a',
 };
 
 export default function RootLayout({
@@ -28,14 +58,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+    <html lang="en" suppressHydrationWarning className="h-full">
+      <body className={`${inter.className} h-full overflow-auto`}>
         <Providers>
-          <div className="pb-16 min-h-screen">
-            {children}
-          </div>
-          <BottomNav />
-          <Toaster />
+          <AppInitializer>
+            <div className="relative min-h-full pb-16">
+              <main className="relative">
+                {children}
+              </main>
+            </div>
+            <BottomNav />
+            <Toaster />
+          </AppInitializer>
         </Providers>
       </body>
     </html>
