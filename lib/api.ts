@@ -9,14 +9,29 @@ import type {
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 
+// Log warning in development if API URL is not configured
+if (!API_BASE_URL && process.env.NODE_ENV === 'development') {
+  console.warn(
+    'NEXT_PUBLIC_API_BASE_URL is not set. API calls will be made to the same domain as the frontend. ' +
+    'Please set NEXT_PUBLIC_API_BASE_URL in your environment variables.'
+  );
+}
+
 async function fetchApi<T>(endpoint: string): Promise<T> {
-  const response = await fetch(`${API_BASE_URL}${endpoint}`);
+  const url = `${API_BASE_URL}${endpoint}`;
 
-  if (!response.ok) {
-    throw new Error(`API error: ${response.statusText}`);
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status} ${response.statusText} - ${url}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error(`Failed to fetch from ${url}:`, error);
+    throw error;
   }
-
-  return response.json();
 }
 
 export async function getNames(params: SearchParams = {}): Promise<NameListResponse> {
